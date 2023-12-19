@@ -16,7 +16,8 @@ async function update() {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const [familyName, givenName, patronymicName] = line.split(' ');
+    const [familyName, givenName, patronymicName] = line.split(/\s+/);
+    const delimiter = line.match(/\s+/);
 
     let gender = await shevchenko.detectGender({
       givenName, patronymicName, familyName
@@ -56,7 +57,7 @@ async function update() {
         result = await shevchenko.inVocative({gender, givenName, patronymicName, familyName});
         break;
     }
-    outputText += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName} ${result.givenName} ${result.patronymicName}  \n`;
+    outputText += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}  \n`;
   }
   output.value = outputText;
 }
