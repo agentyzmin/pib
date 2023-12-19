@@ -9,6 +9,17 @@ const outputVocative = document.getElementById('outputVocative');
 input.addEventListener('keyup', updateAll);
 updateAll();
 
+function formatResult(result, delimiter, genderIsNotDetected) {
+  delimiter = delimiter || ' ';
+  return [
+    genderIsNotDetected ? '⚠️' : '',
+    result.familyName || '',
+    result.givenName || '',
+    result.patronymicName || ''
+  ]
+    .filter(Boolean)
+    .join(delimiter) + '\n';
+}
 async function updateAll() {
   const text = input.value;
   const lines = text.split('\n');
@@ -25,6 +36,13 @@ async function updateAll() {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    if (line.trim() === '') {
+      for (let key in outputText) {
+        outputText[key] += '\n';
+      }
+      continue;
+    }
+
     const [familyName, givenName, patronymicName] = line.split(/\s+/);
     const delimiter = line.match(/\s+/);
 
@@ -38,37 +56,37 @@ async function updateAll() {
 
     // {
     //   const result = await shevchenko.inNominative({gender, givenName, patronymicName, familyName});
-    //   outputText.nominative += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}\n`;
+    //   outputText.nominative += formatResult(result, delimiter, genderIsNotDetected);
     // }
 
     {
       const result = await shevchenko.inGenitive({gender, givenName, patronymicName, familyName});
-      outputText.genitive += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}\n`;
+      outputText.genitive += formatResult(result, delimiter, genderIsNotDetected);
     }
 
     {
       const result = await shevchenko.inDative({gender, givenName, patronymicName, familyName});
-      outputText.dative += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}\n`;
+      outputText.dative += formatResult(result, delimiter, genderIsNotDetected);
     }
 
     {
       const result = await shevchenko.inAccusative({gender, givenName, patronymicName, familyName});
-      outputText.accusative += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}\n`;
+      outputText.accusative += formatResult(result, delimiter, genderIsNotDetected);
     }
 
     {
       const result = await shevchenko.inAblative({gender, givenName, patronymicName, familyName});
-      outputText.ablative += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}\n`;
+      outputText.ablative += formatResult(result, delimiter, genderIsNotDetected);
     }
 
     {
       const result = await shevchenko.inLocative({gender, givenName, patronymicName, familyName});
-      outputText.locative += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}\n`;
+      outputText.locative += formatResult(result, delimiter, genderIsNotDetected);
     }
 
     {
       const result = await shevchenko.inVocative({gender, givenName, patronymicName, familyName});
-      outputText.vocative += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}\n`;
+      outputText.vocative += formatResult(result, delimiter, genderIsNotDetected);
     }
   }
 

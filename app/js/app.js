@@ -6,6 +6,19 @@ input.addEventListener('keyup', update);
 caseSelect.addEventListener('change', update);
 update();
 
+function formatResult(result, delimiter, genderIsNotDetected) {
+  delimiter = delimiter || ' ';
+  return [
+    genderIsNotDetected ? '⚠️' : '',
+    result.familyName || '',
+    result.givenName || '',
+    result.patronymicName || ''
+  ]
+    .filter(Boolean)
+    .join(delimiter) + '\n';
+}
+
+
 async function update() {
   const text = input.value;
   const lines = text.split('\n');
@@ -14,8 +27,16 @@ async function update() {
   console.log(selectedCase);
   let outputText = '';
 
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    if (line.trim() === '') {
+      for (let key in outputText) {
+        outputText[key] += '\n';
+      }
+      continue;
+    }
+
     const [familyName, givenName, patronymicName] = line.split(/\s+/);
     const delimiter = line.match(/\s+/);
 
@@ -57,7 +78,7 @@ async function update() {
         result = await shevchenko.inVocative({gender, givenName, patronymicName, familyName});
         break;
     }
-    outputText += `${genderIsNotDetected ? '⚠️' : ''}${result.familyName}${delimiter}${result.givenName}${delimiter}${result.patronymicName}  \n`;
+    outputText += formatResult(result, delimiter, genderIsNotDetected);
   }
   output.value = outputText;
 }
