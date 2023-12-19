@@ -30,12 +30,11 @@ async function update() {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    if (line.trim() === '') {
-      for (let key in outputText) {
-        outputText[key] += '\n';
+        if (line.trim() === '') {
+          outputText += '\n';
+          continue;
       }
-      continue;
-    }
+
 
     const [familyName, givenName, patronymicName] = line.split(/\s+/);
     const delimiter = line.match(/\s+/);
