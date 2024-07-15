@@ -1,3 +1,4 @@
+const input = document.getElementById('input');
 const outputNominative = document.getElementById('outputNominative');
 const outputGenitive = document.getElementById('outputGenitive');
 const outputDative = document.getElementById('outputDative');
@@ -20,6 +21,7 @@ function formatResult(result, delimiter, genderIsNotDetected) {
     .filter(Boolean)
     .join(delimiter) + '\n';
 }
+
 async function updateAll() {
   const text = input.value;
   const lines = text.split('\n');
@@ -97,4 +99,26 @@ async function updateAll() {
   outputAblative.value = outputText.ablative;
   outputLocative.value = outputText.locative;
   outputVocative.value = outputText.vocative;
+}
+
+document.getElementById('formatButton').addEventListener('click', formatNames);
+
+function formatNames() {
+  const text = input.value.trim();
+  if (text === '') return;
+
+  const lines = text.split('\n');
+  const formattedLines = lines.map(line => {
+    const names = line.split(/\s+/);
+    if (names.length < 2) {
+      return line; // Return the line as is if it doesn't have at least two parts
+    }
+
+    const givenName = names[1].charAt(0).toUpperCase() + names[1].slice(1).toLowerCase();
+    const familyName = names[0].toUpperCase();
+    return `${givenName} ${familyName}`;
+  });
+
+  input.value = formattedLines.join('\n');
+  updateAll();
 }
