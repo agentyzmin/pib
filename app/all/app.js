@@ -6,14 +6,17 @@ const outputAccusative = document.getElementById('outputAccusative');
 const outputAblative = document.getElementById('outputAblative');
 const outputLocative = document.getElementById('outputLocative');
 const outputVocative = document.getElementById('outputVocative');
+const toggleWarning = document.getElementById('toggleWarning');
 
 input.addEventListener('keyup', updateAll);
+toggleWarning.addEventListener('change', updateAll);
 updateAll();
 
 function formatResult(result, delimiter, genderIsNotDetected) {
   delimiter = delimiter || ' ';
+  const showWarning = !toggleWarning.checked;
   return [
-    genderIsNotDetected ? '⚠️' : '',
+    genderIsNotDetected && showWarning ? '⚠️' : '',
     result.familyName || '',
     result.givenName || '',
     result.patronymicName || ''

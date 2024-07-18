@@ -91,7 +91,17 @@ textarea {
     </div>
     <div class="row mt-3">
         <div class="col-md-3 col-12 order-0" >
-            <strong><p class="mb-1">Називний (хто?)</p></strong><button id="formatButton" class="btn btn-sm btn-outline-primary mb-2">Форматувати «Ім’я ПРІЗВИЩЕ»</button>
+            <strong><p class="mb-1">Називний (хто?)</p></strong>
+            <div class="row align-items-center">
+                <div class="col-7">
+                    <button id="formatButton" class="btn btn-sm btn-outline-primary mb-2">Форматувати «Ім’я ПРІЗВИЩЕ»</button>
+                </div>     
+                <div class="col">
+                    <input type="checkbox" id="toggleWarning">
+                    <label for="toggleWarning">Сховати ⚠️</label>
+                </div>
+            </div>
+
             <textarea class="form-control" id="input" style="min-height:810px">Шевченко Тарас Григорович</textarea>
         </div>
         
