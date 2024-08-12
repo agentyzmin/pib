@@ -1,15 +1,18 @@
 const input = document.getElementById('input');
 const output = document.getElementById('output');
 const caseSelect = document.getElementById('case');
+const toggleWarning = document.getElementById('toggleWarning');
 
 input.addEventListener('keyup', update);
 caseSelect.addEventListener('change', update);
+toggleWarning.addEventListener('change', update);
 update();
 
 function formatResult(result, delimiter, genderIsNotDetected) {
   delimiter = delimiter || ' ';
+  const showWarning = !toggleWarning.checked;
   return [
-    genderIsNotDetected ? '⚠️' : '',
+    (genderIsNotDetected && showWarning) ? '⚠️' : '',
     result.familyName || '',
     result.givenName || '',
     result.patronymicName || ''
@@ -80,4 +83,27 @@ async function update() {
     outputText += formatResult(result, delimiter, genderIsNotDetected);
   }
   output.value = outputText;
+}
+
+
+document.getElementById('formatButton').addEventListener('click', formatNames);
+
+function formatNames() {
+  const text = input.value.trim();
+  if (text === '') return;
+
+  const lines = text.split('\n');
+  const formattedLines = lines.map(line => {
+    const names = line.split(/\s+/);
+    if (names.length < 2) {
+      return line; // Return the line as is if it doesn't have at least two parts
+    }
+
+    const givenName = names[1].charAt(0).toUpperCase() + names[1].slice(1).toLowerCase();
+    const familyName = names[0].toUpperCase();
+    return `${givenName} ${familyName}`;
+  });
+
+  input.value = formattedLines.join('\n');
+  update();
 }

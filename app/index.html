@@ -70,7 +70,7 @@ h1 {
 }
 
 textarea {
-    height: 75vh;
+    height: 70vh;
 }
 
 @media only screen and (max-width: 600px) {
@@ -87,7 +87,10 @@ textarea {
 <div class="row mt-3">
     <div class="col">
         <h1 class="h3-sm">Відмінювання українських антропонімів</h1>
-        <p class="text-muted">Введіть ПІБ, розділювач має бути пробіл або табулятор. Результат виводиться у порядку <span style="font-style: italic;">Прізвище Ім’я По батькові</span>.</p>
+        <p class="text-muted">
+            Введіть ПІБ, розділювач має бути пробіл або табулятор. Результат виводиться у порядку <span style="font-style: italic;">Прізвище Ім’я По батькові</span>. <br>
+            Cимвол ⚠️, показує рядки, в яких скрипт не зміг коректно визначити стать для відмінювння.
+        </p>
     </div>
     <div class="col-2 text-end">
         <a href="all">Всі відмінки</a>  
@@ -103,6 +106,15 @@ textarea {
     <option value="locative">Місцевий</option>
     <option value="vocative">Кличний</option>
 </select>
+<div class="row  mt-4 align-items-center">
+    <div class="col-auto">
+        <button id="formatButton" class="btn btn-sm btn-outline-primary mb-2">Форматувати «Ім’я ПРІЗВИЩЕ»</button>
+    </div>     
+    <div class="col-auto">
+        <input type="checkbox" id="toggleWarning">
+        <label for="toggleWarning">Сховати ⚠️</label>
+    </div>
+</div>
     <div class="row mt-3">
         <div class="col"><textarea class="form-control" id="input">Шевченко Тарас Григорович</textarea></div>
         <div class="col"><textarea class="form-control" id="output"></textarea></div>
