@@ -1,0 +1,17 @@
+{
+  "name": "pib",
+  "version": "1.0.0",
+  "description": "Ukrainian name declension tool",
+  "main": "app/js/app.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "shevchenko": "^3.1.4",
+    "shevchenko-ext-military": "0.0.0-beta.2"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+} 
