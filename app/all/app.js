@@ -231,3 +231,130 @@ function formatNames() {
   input.value = formattedLines.join('\n');
   updateAll();
 }
+
+async function formatFamilyNameOnly() {
+  const text = input.value.trim();
+  if (text === '') return;
+
+  const lines = text.split('\n');
+  const formattedLines = await Promise.all(lines.map(async line => {
+    if (!line.trim()) return line;
+
+    // Split the line while preserving the original delimiter
+    const delimiter = line.match(/\s+/);
+    const parts = line.split(/\s+/);
+    
+    // Try to detect the family name using shevchenko's gender detection
+    const possibleFamilyNames = await Promise.all(parts.map(async (word, index) => {
+      const otherParts = parts.filter((_, i) => i !== index);
+      const gender = await shevchenko.detectGender({
+        familyName: word,
+        givenName: otherParts[0] || '',
+        patronymicName: otherParts[1] || ''
+      });
+      
+      return {
+        word,
+        index,
+        isFamilyName: gender !== null
+      };
+    }));
+
+    // Find the first detected family name
+    const familyName = possibleFamilyNames.find(name => name.isFamilyName);
+    
+    if (familyName) {
+      // Convert only the detected family name to uppercase
+      parts[familyName.index] = familyName.word.toUpperCase();
+    }
+    
+    // Join the parts back together with the original delimiter
+    return parts.join(delimiter || ' ');
+  }));
+
+  input.value = formattedLines.join('\n');
+  updateAll();
+}
+
+function formatNameAndFamily() {
+  const text = input.value.trim();
+  if (text === '') return;
+
+  const lines = text.split('\n');
+  const formattedLines = lines.map(line => {
+    const { familyName, givenName, patronymicName, militaryAppointment } = parseInputLine(line);
+    if (!givenName || !familyName) {
+      return line;
+    }
+
+    const formattedGivenName = givenName.charAt(0).toUpperCase() + givenName.slice(1).toLowerCase();
+    const formattedFamilyName = familyName.toUpperCase();
+    
+    return [
+      formattedGivenName,
+      formattedFamilyName,
+      militaryAppointment
+    ].filter(Boolean).join(' ');
+  });
+
+  input.value = formattedLines.join('\n');
+  updateAll();
+}
+
+function formatFullName() {
+  const text = input.value.trim();
+  if (text === '') return;
+
+  const lines = text.split('\n');
+  const formattedLines = lines.map(line => {
+    const { familyName, givenName, patronymicName, militaryAppointment } = parseInputLine(line);
+    if (!givenName || !familyName) {
+      return line;
+    }
+
+    const formattedGivenName = givenName.charAt(0).toUpperCase() + givenName.slice(1).toLowerCase();
+    const formattedPatronymicName = patronymicName ? patronymicName.charAt(0).toUpperCase() + patronymicName.slice(1).toLowerCase() : '';
+    const formattedFamilyName = familyName.toUpperCase();
+    
+    return [
+      formattedGivenName,
+      formattedPatronymicName,
+      formattedFamilyName,
+      militaryAppointment
+    ].filter(Boolean).join(' ');
+  });
+
+  input.value = formattedLines.join('\n');
+  updateAll();
+}
+
+function formatInitialAndFamily() {
+  const text = input.value.trim();
+  if (text === '') return;
+
+  const lines = text.split('\n');
+  const formattedLines = lines.map(line => {
+    const { familyName, givenName, patronymicName, militaryAppointment } = parseInputLine(line);
+    if (!givenName || !familyName) {
+      return line;
+    }
+
+    const formattedGivenName = givenName.charAt(0).toUpperCase() + '.';
+    const formattedFamilyName = familyName.toUpperCase();
+    
+    return [
+      formattedGivenName,
+      formattedFamilyName,
+      militaryAppointment
+    ].filter(Boolean).join(' ');
+  });
+
+  input.value = formattedLines.join('\n');
+  updateAll();
+}
+
+// Add event listeners for the new format buttons
+document.getElementById('formatFamilyNameOnly').addEventListener('click', formatFamilyNameOnly);
+document.getElementById('formatNameAndFamily').addEventListener('click', formatNameAndFamily);
+document.getElementById('formatFullName').addEventListener('click', formatFullName);
+document.getElementById('formatInitialAndFamily').addEventListener('click', formatInitialAndFamily);

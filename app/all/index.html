@@ -65,7 +65,7 @@ h1 {
 }
 
 textarea {
-    height:400px;
+    height:380px;
     margin-bottom: 20px;
 }
 
@@ -87,17 +87,33 @@ textarea {
         <a href="http://translit.a3.kyiv.ua/kmu/" target="_blank">Трансліт</a><svg width="9px" height="8px" viewBox="0 0 9 8"><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M4.71971539,2.67826179 L2.86363636,1.80481283 L7.9171123,0 L9,4.69251337 L7.32095823,3.90237607 C5.28046747,6.49236995 2.17536973,7.36363636 0,7.36363636 C2.55148779,5.78322764 4.12472625,4.22143611 4.71971539,2.67826179 Z" id="Combined-Shape" fill="#0d6efd"></path></g></svg>
     </div>
     </div>
+    <div class="row align-items-center">
+        <div class="col-auto">
+            Форматувати:
+        </div>
+        <div class="col-auto">
+            <button id="formatFamilyNameOnly" class="btn btn-sm btn-outline-primary">Прізвище → ПРІЗВИЩЕ</button>
+        </div>     
+        <div class="col-auto">
+            <button id="formatNameAndFamily" class="btn btn-sm btn-outline-primary">Ім'я ПРІЗВИЩЕ</button>
+        </div>     
+        <div class="col-auto">
+            <button id="formatFullName" class="btn btn-sm btn-outline-primary">Ім'я По батькові ПРІЗВИЩЕ</button>
+        </div>     
+        <div class="col-auto">
+            <button id="formatInitialAndFamily" class="btn btn-sm btn-outline-primary">І. ПРІЗВИЩЕ</button>
+        </div>
+        <div class="col-auto">
+            <input type="checkbox" id="toggleWarning">
+            <label for="toggleWarning">Сховати ⚠️</label>
+        </div>
+    </div>
     <div class="row mt-3">
         <div class="col-md-3 col-12 order-0" >
             <strong><p class="mb-1">Називний (хто?)</p></strong>
             <div class="row align-items-center">
-                <div class="col-7">
-                    <button id="formatButton" class="btn btn-sm btn-outline-primary mb-2">Форматувати «Ім'я ПРІЗВИЩЕ»</button>
-                </div>     
-                <div class="col">
-                    <input type="checkbox" id="toggleWarning">
-                    <label for="toggleWarning">Сховати ⚠️</label>
-                </div>
+
+
             </div>
 
             <textarea class="form-control" id="input" style="min-height:810px">Шевченко Тарас Григорович</textarea>
