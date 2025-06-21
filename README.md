@@ -1,5 +1,9 @@
 # Відмінювання українських антропонімів: прізвищ, імен, по-батькові
 
+> Сайт: [pib.a3.kyiv.ua](https://pib.a3.kyiv.ua/)
+
+> Бекап на Github Pages: [agentyzmin.github.io/pib/](https://agentyzmin.github.io/pib/)
+
 Інструмент для відмінінювання українських анропонімів. Базується на бібліотеці [shevchenko.js](https://shevchenko-js.tooleks.com/#usage-example) версії 3.1.4.
 
 Сторінку зробили [Олександр Колодько](https://github.com/alexkolodko) та [Артем Вейкус](https://github.com/veikus).
